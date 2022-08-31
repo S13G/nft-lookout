@@ -8,16 +8,17 @@ import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
 from rarenfts.signals import alert_admin_signal
 
+
 @receiver(alert_admin_signal)
 def alert_admin(**kwargs):
     instance = kwargs['instance']
-    if kwargs['created'] :
+    if kwargs['created']:
         admin_emails = get_user_model().objects.filter(is_staff=True).values()
 
         if admin_emails:
 
             configuration = sib_api_v3_sdk.Configuration()
-            configuration.api_key['api-key'] = os.environ.get('API_KEY')
+            configuration.api_key['api-key'] = config('API_KEY')
 
             api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
                 sib_api_v3_sdk.ApiClient(configuration))
@@ -35,5 +36,3 @@ def alert_admin(**kwargs):
                 print(api_response)
             except ApiException as e:
                 print("Exception when calling SMTPApi->send_transac_email: %s\n" % e)
-
-
