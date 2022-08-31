@@ -1,0 +1,125 @@
+@media only screen and (max-width:1150px) {
+    .items .content {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+}
+
+
+
+@media only screen and (max-width:1050px) {
+    .popup .listing .form {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        height: auto;
+        width: 100%;
+        gap: 3rem;
+    }
+
+    .popup .listing .form .left {
+        width: 75%;
+        margin: auto;
+    }
+
+}
+
+
+
+@media only screen and (max-width:990px) {
+    .items .content {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+}
+
+
+
+@media only screen and (max-width:850px) {
+    .items .content {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .mbl-nav {
+        position: relative;
+        display: flex;
+    }
+
+    .nav_close i {
+        display: flex;
+    }
+
+    .website .left {
+        position: absolute;
+        right: 0;
+        background: #fff;
+        z-index: 34534534;
+        transform: translateY(-150%);
+        transition: .5s ease;
+    }
+
+    .website .left.active {
+        transform: translateY(0);
+    }
+
+    .website .left .logo {
+        display: none;
+    }
+
+    .website {
+        grid-template-columns: 1fr;
+    }
+
+    .popup .listing .form .left {
+        width: 75%;
+        margin: auto;
+        transform: translateY(-100px) translateX(30px);
+    }
+}
+
+
+
+@media only screen and (max-width:550px) {
+    .items .content {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .website .left {
+        left: 0;
+        right: 0;
+    }
+
+    .mbl-nav {
+        padding: .5rem 2rem;
+    }
+
+    .listing {
+        left: 0 !important;
+        right: 0%;
+        top: 0;
+        bottom: 0;
+        border-radius: 0;
+        overflow: scroll;
+    }
+
+    .form .right {
+        overflow: hidden;
+height:auto;
+        transform: translateY(550px) translateX(0px);
+    }
+
+    .popup .listing .form .left {
+
+
+        background: transparent;
+    }
+}
+
+
+
+@media only screen and (max-width:400px) {
+    .items .content {
+        grid-template-columns: 1fr;
+    }
+
+}

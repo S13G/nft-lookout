@@ -1,0 +1,465 @@
+{% load static %}
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'assets/Nft lookout.png' %}">
+    <link rel="stylesheet" href="{% static 'izi/notify/dist/css/iziToast.min.css' %}">
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'media.css' %}">
+
+    <!-- darkmode -->
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+    <!-- jquery -->
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+        rel="stylesheet" type="text/css" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% if settings %}
+    <title>{{settings.trade_mark}}</title>
+    {% else %}
+    <title>Nft Lookout</title>
+
+    {% endif %}
+
+    <style>
+        #item-cover {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="website">
+        <div class="left">
+            <div class="nav_close" id="nav_close">
+                <i class="fas fa-times"></i>
+            </div>
+
+
+            <div class="logo">
+                {% if settings %}
+
+                <img src="{{settings.logo.url}}" alt="logo">
+
+                <h1>
+                    {{settings.trade_mark}}
+                </h1>
+                {% else %}
+                <img src="{% static 'assets/Nft lookout.png' %}" alt="logo">
+
+                <h1>
+                    NFT
+                    <br>
+                    Lookout
+                </h1>
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="links" id="links">
+                <a href="{% url 'index' %}" class="linknav">
+                    <i class="fa-solid fa-book"></i>
+                    NFT COLLECTIONS
+                </a>
+                <a href="{% url 'calendar' %}" class="linknav active">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    NFT DROPS CALENDAR
+                </a>
+                <a href="#" class="btn" id="listing">
+                    GET LISTED
+                </a>
+            </div>
+            <div class="search">
+                <form action="{% url 'search' %}" method="post" id="search">
+                    {% csrf_token %}
+                    <div class="input">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search Collection" name="search_key">
+                    </div>
+                </form>
+
+
+
+                <div class="filter">
+                    <div class="datefil">
+                        <p>SALE DATE</p>
+                        <form action="{% url 'search-drops-date' %}" method="post" id="search">
+                            {% csrf_token %}
+                            <input type="date" class="inputdate" name="search_key">
+                            <button class="btn" id="listing" type="submit" style="margin-top: 5px;">Search by
+                                Date</button>
+                        </form>
+
+                    </div>
+
+                    <div class="drops">
+                        <p>Search</p>
+                        <form action="{% url 'search-drops' %}" method="post" id="search">
+                            {% csrf_token %}
+                            <div class="input">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" placeholder="Filter Drops" name="search_key">
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- <div class="saleprice">
+                        <p>Sale Price</p>
+                        <div class="content">
+                            <div>
+                                <label class="lablefor" for="from">FROM</label>
+                                <input class="inputfor" type="number" placeholder="0" name="from">
+                            </div>
+                            <div>
+                                <label class="lablefor" for="to">TO</label>
+                                <input class="inputfor" type="number" placeholder="500" name="to">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="saleprice">
+                        <p>SUPPLY</p>
+                        <div class="content">
+                            <div>
+                                <label class="lablefor" for="from">FROM</label>
+                                <input class="inputfor" type="number" placeholder="0" name="from">
+                            </div>
+                            <div>
+                                <label class="lablefor" for="to">TO</label>
+                                <input class="inputfor" type="number" placeholder="2000" name="to">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="properties">
+
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="social">
+                <p>JOIN OUR COMMUNITY</p>
+                <div class="icons">
+                    <div class="icon twitter">
+                        <a href="https://twitter.com" target="_blank">
+                            <div class="linktxt">
+                                <div>
+                                    <i class="fa-brands fa-twitter"></i>
+                                    Twitter
+                                </div>
+                                <div>
+                                    | &nbsp; {{stats.twitter}} followers
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="icon discord">
+                        <a href="https://discord.com" target="_blank">
+                            <div class="linktxt">
+                                <div>
+                                    <i class="fa-brands fa-discord"></i>
+                                    Discord
+                                </div>
+                                <div>
+                                    | &nbsp; {{stats.discord}} followers
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="darkmode">
+                <i class="fa-solid fa-moon"></i>
+                <div>
+                    <p><span class="moodname">Dark</span> Mode</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="dark_btn" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        <div class="right">
+            <div class="mbl-nav">
+                <div class="mbl_logo">
+                    <img src="{% static 'assets/favicon.png' %}" alt="">
+                </div>
+                <div class="menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+            <div class="top">
+                <h1>
+                    NFT Drops Calendar
+                </h1>
+                <p>
+                    {{total}} collections
+                </p>
+                <div class="italic">
+                    * Upcoming Collections may not be fully verified. Always do your own research.
+                </div>
+            </div>
+
+            {% block content %}
+
+            {% endblock content %}
+
+            <div class="popup">
+                <div class="listing" id="listitems">
+                    <div class="popuphead">
+                        <i class="fas fa-times close" id="close"></i>
+                        <h1 class="head">
+                            List Your Items
+                        </h1>
+                    </div>
+                    <div class="form">
+                        <div class="left">
+                            <div class="dta">
+                                <label for="image">
+                                    {% csrf_token %}
+                                    <img src="{% static 'assets/5.webp'%}" alt="" id="imageprev">
+                                    <div class="txtinput" id="image" type="file" placeholder="image"
+                                        accept="image/png, image/jpg, image/gif, image/jpeg" onchange="readURL(this);">
+                                    </div><br>
+                                </label>
+                                <div class="txt">
+                                    <h1 id="nameprev">
+                                        Enter Name
+                                    </h1>
+                                    <div class="line">
+                                        <div class="lft bgblk" id="prevcardicon">
+                                            <img src="{% static 'assets/eth.png'%}" id="previmagecard" alt="">
+                                            <div id="netprev1"> ETH</div>
+                                        </div>
+                                        <div class="rit">
+                                            <i class="fa-brands fa-ethereum"></i>
+                                            <div id="floorprev">0.00</div>
+                                            <div>floor</div>
+                                        </div>
+                                    </div>
+                                    <div class="line">
+                                        <div class="lft" id="dateprev">
+                                            Aug 25
+                                        </div>
+                                        <div class="rit" id="volprev">
+                                            <i class="fa-brands fa-ethereum"></i>
+                                            00 vol
+                                        </div>
+                                    </div>
+                                    <div class="social-icons">
+                                        <a href="https://www.fiverr.com/share/vAAxWr" id="linkrev" target="_blank">
+                                            <i class="fa-solid fa-globe"></i>
+                                        </a>
+                                        <a href="https://discord.com" id="disprev" target="_blank">
+                                            <i class="fa-brands fa-discord"></i>
+                                        </a>
+                                        <a href="https://twitter.com" id="twtprev" target="_blank">
+                                            <i class="fa-brands fa-twitter"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <form action="{% url 'add_calendar'%}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input class="txtinput" id="name" name="name" type="text" placeholder="Project Name"
+                                    required> <br>
+
+                                <input class="txtinput" id="floor_price" type="number" step=".01" name="floor_price"
+                                    placeholder="Floor Price" required> <br>
+                                <input class="txtinput" id="date" type="date" name="date" class="date"
+                                    placeholder="date" required> <br>
+                                <input class="txtinput" id="web_url" type="url" name="website"
+                                    placeholder="Website Link"><br>
+                                <input class="txtinput" id="discord_url" type="url" name="discord"
+                                    placeholder="Discord Link"> <br>
+                                <input class="txtinput" id="twtr_url" type="url" name="twitter"
+                                    placeholder="Twitter Link">
+                                <br>
+                                <input type="time" name="mint_time" id="mint_time" placeholder="Mint Time" required>
+                                <br>
+                                <input type="number" name="mint_price" id="mint_price" placeholder="Mint Price" step=".01"
+                                    required> <br>
+                                <input type="number" name="total_supply" id="total_supply" placeholder="Total Supply"
+                                    required> <br>
+                                <input type="file" name="image2" id="image2" required> <br>
+
+                                <!-- network -->
+                                <label for="network">
+                                    Select Network
+                                </label> <br>
+                                <div class="networks">
+                                    <div id="netname1">
+                                        <input type="radio" id="net1" name="network" value="SOL" >
+                                        <label for="net1" value="SOL">SOL</label>&nbsp;&nbsp;
+                                    </div>
+                                    <div id="netname2">
+                                        <input type="radio" id="net2" name="network" value="ETH" checked>
+                                        <label for="net2">ETH</label>&nbsp;&nbsp;
+                                    </div>
+                                    <div id="netname3">
+                                        <input type="radio" id="net3" name="network" value="BSC">
+                                        <label for="net3">BSC</label>&nbsp;&nbsp;
+                                    </div>
+                                    <div id="netname4">
+                                        <input type="radio" id="net4" name="network" value="MATIC">
+                                        <label for="net4">MATIC</label>
+                                    </div>
+                                </div>
+                                <!-- network -->
+                                <div class="listingfee">
+                                    <div id="free">
+                                        <input required type="radio" id="free_listing" name="listing_type"
+                                            value="free listing">
+                                        <label for="free_listing">Free Listing <br> Wait list 5-8 b days</label>
+                                    </div>
+                                    <div>
+                                        <div id="paid">
+                                            <input required type="radio" id="paid_listing" name="listing_type"
+                                                value="paid listing">
+                                            <label for="paid_listing">Paid Listing <br> Next day Listing</label>
+                                            <br><br>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div id="paidmsg">
+                                    <p>Please send 0.2 ETH tothe address x <br> and paste the transaction link
+                                        below.</p>
+                                    <input type="text" name="transaction_link" placeholder="Transaction Link">
+                                </div>
+
+
+                                <input type="submit" class="btn" value="Submit Project">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $("div.alert").fadeOut(3000);
+            });
+        </script>
+
+<script src="{% static 'script.js' %}"></script>
+
+<script>
+
+
+    const netname1 = document.getElementById('netname1');
+    const netname2 = document.getElementById('netname2');
+    const netname3 = document.getElementById('netname3');
+    const netname4 = document.getElementById('netname4');
+    const prevCardIcon = document.getElementById('prevcardicon');
+    const prevCardImage = document.getElementById('previmagecard');
+    netname1.onclick = () =>{
+        document.getElementById('netprev1').innerHTML = 'SOL';
+        prevCardIcon.style.backgroundColor = 'blue'
+        prevCardImage.src = "{% static 'assets/sol.png'%}" 
+    }
+    netname2.onclick = () =>{
+        document.getElementById('netprev1').innerHTML = "ETH";
+        prevCardIcon.style.backgroundColor = '#344155'
+        prevCardImage.src = "{% static 'assets/eth.png'%}"
+    }
+    netname3.onclick = () =>{
+        document.getElementById('netprev1').innerHTML = 'BSC';
+        prevCardIcon.style.backgroundColor = 'rgb(56, 17, 23)'
+        prevCardImage.src = "{% static 'assets/bsc.png'%}"
+    }
+    netname4.onclick = () =>{
+        document.getElementById('netprev1').innerHTML = "MATIC";
+        prevCardIcon.style.backgroundColor = 'rgb(183, 137, 225)'
+        prevCardImage.src = "{% static 'assets/matic.svg'%}"
+    }
+    
+    const paid = document.getElementById("paid");
+    
+    paid.onclick = () => {
+      paidmsg.style.display = "block";
+    };
+    
+    const free = document.getElementById("free");
+    
+    free.onclick = () => {
+      paidmsg.style.display = "none";
+    };
+    
+    var linkss = document.getElementById("links");
+    var btns = linkss.getElementsByClassName("linknav");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
+
+    </script>
+<script src="{% static 'izi/notify/dist/js/iziToast.min.js' %}"> </script>
+
+<script>
+ {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} 
+                iziToast.success({
+                    title: 'OK',
+                    message: '{{message}}',
+                    position:  'topRight',
+                });
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} 
+                iziToast.error({
+                    title: 'Error',
+                    message: '{{message}}',
+                    position:  'topRight',
+        
+                });
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %} 
+                iziToast.warning({
+                    title: 'Caution',
+                    message: '{{message}}',
+                    position:  'topRight',
+                    timeout: 10000,
+        
+                });
+        
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %} 
+                iziToast.info({
+                    title: 'Hey',
+                    message: '{{message}}',
+                    position:  'topRight',
+        
+                });
+    
+                
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+       
+
+
+        
+        </script>
+    </body>
+</html>

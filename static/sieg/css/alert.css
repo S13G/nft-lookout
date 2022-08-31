@@ -1,0 +1,72 @@
+:root {
+  --color-main: #5aa5b9;
+  --color-main-light: #e6faff;
+  --color-sub: #3f4156;
+  --color-sub-light: #51546e;
+  --color-sub-lighter: #ededfd;
+  --color-text: #737373;
+  --color-gray: #8b8b8b;
+  --color-light: #e5e7eb;
+  --color-light-gray: #767676;
+  --color-bg: #f8fafd;
+  --color-white: #fffefd;
+  --color-white-light: #f3f3f3;
+  --color-success: rgb(57, 228, 134);
+  --color-success-bg: rgba(222, 248, 232, 0.84);
+  --color-error: #fc4b0b;
+  --color-error-bg: #fff2ee;
+  --font-base: "Poppins", arial, helvetica, "Segoe UI", roboto, ubuntu, sans-serif;
+  --font-monospace: "Fira Code", "Courier New", courier, monospace;
+  --font-regular: 300;
+  --font-medium: 500;
+  --font-bold: 700;
+  --generic-shadow: 1px 1px 5px #00000010;
+  --generic-transition: all 1.3s ease-in-out;
+}
+
+.alert {
+  display: flex;
+  width: 500px;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  margin-bottom: 1.4rem;
+  margin-right: 1rem;
+  position: fixed;
+  left: 80%;
+  top: 120px;
+  transform: translate(-50%, -50%);
+  z-index: 99999 !important;
+}
+
+.alert,
+.alert>.alert__message {
+  background-color: var(--color-main-light);
+  color: var(--color-main);
+  font-size: 1rem;
+  font-weight: var(--font-medium);
+}
+
+.alert.alert--error,
+.alert.alert--error>.alert__message {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+.alert.alert--success,
+.alert.alert--success>.alert__message {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.alert.alert--warning,
+.alert.alert--warning>.alert__message {
+  background-color: rgb(245, 229, 142);
+  color: rgb(167, 143, 10);
+}
+
+.alert>#alert_close:hover {
+  opacity: 0.85;
+}

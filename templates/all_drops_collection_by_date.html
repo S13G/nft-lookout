@@ -1,0 +1,218 @@
+{% extends 'base_calendar.html' %}
+{% load static %}
+{% load custom_tags %}
+
+
+{% block content %}
+{% for day in days_list %}
+
+            <div class="items">
+                <div class="heading">
+                    <h1>
+                        {{day|dt_format}}
+                    </h1>
+                    <h2>
+                        {{collections|count_col:day}} Drops
+                    </h2>
+                </div>
+                <div class="content">
+                {% for collection in collections|in_date:day %}
+
+                    {% if collection.featured %}
+
+                    <div class="item" id="featured">
+                        <div class="featured">
+                            FEATURED
+                        </div>
+                        <img id="item-cover" src="{% static 'assets/5.webp' %}" alt="">
+                        <div class="txt">
+                            <h1>
+                                {{collection.name|upper}}
+
+                            </h1>
+                            <div class="lines">
+                                <div class="line">
+                                    {% if collection.network == 'BSC' %}
+            
+                                    <div class="lft matic bsc">
+                                        <img src="{% static 'assets/bsc.png' %}" alt="">
+                                        BSC
+                                    </div>
+                                    {% elif collection.network == 'ETH'%}
+            
+                                    <div class="lft bgblk">
+                                        <i class="fa-brands fa-ethereum"></i>
+                                        ETH
+                                    </div>
+                                    {% elif collection.network == 'SOL'%}
+                                    <div class="lft bgbl">
+                                        <img src="{% static 'assets/solana-sol-logo.svg' %}" alt="">
+                                        SOL
+                                    </div>
+                                    {% elif collection.network == 'MATIC'%}
+            
+                                    <div class="lft matic">
+                                        <img src="{% static 'assets/polygon-matic-logo.svg' %}" alt="">
+                                        MATIC
+                                    </div>
+            
+                                    {% endif %}
+                                    <div class="rit">
+                                        {{collection.date|date:"M d"}}
+                                    </div>
+                                </div>
+                                <div class="line">
+                                  
+                                    <div class="other">
+                                        {{collection.mint_time |date:"G A e"}} East
+                                    </div>
+                                </div>
+                               
+                                <div class="line">
+                                   
+                                   
+                                        {{collection.total_supply}} total
+                                
+            
+                                    <div class="rit withicon">
+                                        {% if collection.network == 'BSC' %}
+            
+                                                <img src="{% static 'assets/bsc.png' %}" class="icon-img" alt="">
+                                             
+                                            {% elif collection.network == 'ETH'%}
+            
+                                                <i class="fa-brands fa-ethereum"></i>
+                                            
+                                            {% elif collection.network == 'SOL'%}
+                                            <img src="{% static 'assets/solana-sol-logo-black.svg' %}"  class="icon-img" alt="">
+            
+                                            {% elif collection.network == 'MATIC'%}
+            
+                                                <img src="{% static 'assets/polygon-matic-logo-black.svg' %}" class="icon-img" alt="">
+                                            {% endif %}
+            
+            
+                                        {{collection.mint_price}}
+            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="social-icons">
+                                <a href="{{collection.website}}" id="linkrev" target="_blank">
+                                    <i class="fa-solid fa-globe"></i>
+                                </a>
+                                <a href="{{collection.discord}}" id="disprev" target="_blank">
+                                    <i class="fa-brands fa-discord"></i>
+                                </a>
+                                <a href="{{collection.twitter}}" id="twtprev" target="_blank">
+                                    <i class="fa-brands fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% else %}
+
+                    <div class="item">
+                        
+                        <img id="item-cover" src="{{collection.images.image.url}}" alt="">
+                        <div class="txt">
+                            <h1>
+                                {{collection.name|upper}}
+
+                            </h1>
+                            <div class="lines">
+                                <div class="line">
+                                    {% if collection.network == 'BSC' %}
+            
+                                    <div class="lft matic bsc">
+                                        <img src="{% static 'assets/bsc.png' %}" alt="">
+                                        BSC
+                                    </div>
+                                    {% elif collection.network == 'ETH'%}
+            
+                                    <div class="lft bgblk">
+                                        <i class="fa-brands fa-ethereum"></i>
+                                        ETH
+                                    </div>
+                                    {% elif collection.network == 'SOL'%}
+                                    <div class="lft bgbl">
+                                        <img src="{% static 'assets/solana-sol-logo.svg' %}" alt="">
+                                        SOL
+                                    </div>
+                                    {% elif collection.network == 'MATIC'%}
+            
+                                    <div class="lft matic">
+                                        <img src="{% static 'assets/polygon-matic-logo.svg' %}" alt="">
+                                        MATIC
+                                    </div>
+            
+                                    {% endif %}
+                                    <div class="rit">
+                                        {{collection.date|date:"M d"}}
+                                    </div>
+                                </div>
+                                <div class="line">
+                                  
+                                    <div class="other">
+                                        {{collection.mint_time |date:"G A e"}} East
+                                    </div>
+                                </div>
+                               
+                                <div class="line">
+                                   
+                                   
+                                        {{collection.total_supply}} total
+                                
+            
+                                    <div class="rit withicon">
+                                        {% if collection.network == 'BSC' %}
+            
+                                                <img src="{% static 'assets/bsc.png' %}" class="icon-img" alt="">
+                                             
+                                            {% elif collection.network == 'ETH'%}
+            
+                                                <i class="fa-brands fa-ethereum"></i>
+                                            
+                                            {% elif collection.network == 'SOL'%}
+                                            <img src="{% static 'assets/solana-sol-logo-black.svg' %}"  class="icon-img" alt="">
+            
+                                            {% elif collection.network == 'MATIC'%}
+            
+                                                <img src="{% static 'assets/polygon-matic-logo-black.svg' %}" class="icon-img" alt="">
+                                            {% endif %}
+            
+            
+                                        {{collection.mint_price}}
+            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="social-icons">
+                                <a href="{{collection.website}}" id="linkrev" target="_blank">
+                                    <i class="fa-solid fa-globe"></i>
+                                </a>
+                                <a href="{{collection.discord}}" id="disprev" target="_blank">
+                                    <i class="fa-brands fa-discord"></i>
+                                </a>
+                                <a href="{{collection.twitter}}" id="twtprev" target="_blank">
+                                    <i class="fa-brands fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+                    <a href="{% url 'calendar-days' day %}">
+                    <div class="view-all2">
+                        <i class="text-3xl mb-1 fas fa-arrow-circle-right"></i>
+                        <h1>View All The <br> Latest Collections</h1>
+                    </div>
+                </a>
+                </div>
+            </div>
+{% endfor %}
+
+
+{% endblock content %}

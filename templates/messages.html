@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'sieg/css/alert.css' %}">
+</head>
+
+<body>
+    {% if messages %}
+    <div class="man">
+            {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="alert alert--success" style="margin-top:-60px">
+                <p>{{ message }}</p>
+            </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert--error">
+                <p>{{ message }}</p>
+            </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+            <div class="alert alert--warning">
+                <p>{{ message }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+    </div>
+    {% endif %}
+
+    <script>
+        $(document).ready(function () {
+            $("div.alert").fadeOut(3000);
+        });
+    </script>
+    
+</body>
+
+</html>

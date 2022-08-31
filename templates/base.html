@@ -1,0 +1,576 @@
+{% load static %}
+{% comment %} {% include 'messages.html' %} {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'assets/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'izi/notify/dist/css/iziToast.min.css' %}">
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'media.css' %}">
+    <!-- Dark mode -->
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+    <!-- lllllll -->
+    <!-- jquery -->
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+        rel="stylesheet" type="text/css" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% if settings %}
+    <title>{{settings.trade_mark}}</title>
+    {% else %}
+    <title>Nft Lookout</title>
+
+    {% endif %}
+</head>
+
+<body>
+
+    <div class="website">
+        <div class="left">
+            <div class="nav_close" id="nav_close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="logo">
+                {% if settings %}
+
+                <img src="{{settings.logo.url}}" alt="logo">
+
+                <h1>
+                    {{settings.trade_mark}}
+                </h1>
+                {% else %}
+                <img src="{% static 'assets/Nft lookout.png' %}" alt="logo">
+
+                <h1>
+                    NFT
+                    <br>
+                    Lookout
+                </h1>
+                {% endif %}
+            </div>
+            <div class="links " id="links">
+                <a href="{% url 'index' %}" class="linknav active">
+                    <i class="fa-solid fa-book"></i>
+                    NFT COLLECTIONS
+                </a>
+                <a href="{% url 'calendar' %}" class="linknav">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    NFT DROPS CALENDAR
+                </a>
+                <a href="#" class="btn" id="listing">
+                    GET LISTED
+                </a>
+            </div>
+            <div class="search">
+                <form action="{% url 'search' %}" method="post" id="search">
+                    {% csrf_token %}
+                    <div class="input">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search Collection" name="search_key">
+                    </div>
+                </form>
+            </div>
+            <div class="social">
+                <p>JOIN OUR COMMUNITY</p>
+                <div class="icons">
+                    <div class="icon twitter">
+                        <a href="https://twitter.com" target="_blank">
+                            <div class="linktxt">
+                                <div>
+                                    <i class="fa-brands fa-twitter"></i>
+                                    Twitter
+                                </div>
+                                <div>
+                                    | &nbsp; {{stats.twitter}} followers
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="icon discord">
+                        <a href="https://discord.com" target="_blank">
+                            <div class="linktxt">
+                                <div>
+                                    <i class="fa-brands fa-discord"></i>
+                                    Discord
+                                </div>
+                                <div>
+                                    | &nbsp; {{stats.discord}} followers
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="darkmode">
+                <i class="fa-solid fa-moon"></i>
+                <div>
+                    <p><span class="moodname">Dark</span> Mode</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="dark_btn" />
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+        </div>
+        <div class="right">
+            <div class="mbl-nav">
+                <div class="mbl_logo">
+                    <img src="{% static 'assets/favicon.png' %}" alt="">
+                </div>
+                <div class="menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+            <div class="top">
+                {% if settings %}
+
+                <h1>
+                    {{settings.title}}
+                </h1>
+                <p>
+                    {{settings.slogan}}
+                </p>
+
+                {% else %}
+
+                <h1>
+                    The #1 source for NFT lookout
+                </h1>
+                <p>
+                    Your best choice when you're on the lookout for NFTs. </p>
+
+                {% endif %}
+            </div>
+            <div class="items">
+
+
+                {% block heading %}
+
+                {% endblock heading %}
+
+                <div class="content">
+                    {% for collection in featured %}
+
+                    <div class="item" id="featured">
+                        <div class="featured">
+                            FEATURED
+                        </div>
+                        <img src={{collection.images.image.url}} id="item-cover" alt="">
+                        <div class="txt">
+                            <h1>
+                                {{collection.name|upper}}
+
+                            </h1>
+                            <div class="line">
+                                {% if collection.network == 'BSC' %}
+
+                                <div class="lft matic bsc">
+                                    <img src="{% static 'assets/bsc.png' %}" alt="">
+                                    BSC
+                                </div>
+                                {% elif collection.network == 'ETH'%}
+
+                                <div class="lft bgblk">
+                                    <i class="fa-brands fa-ethereum"></i>
+                                    ETH
+                                </div>
+                                {% elif collection.network == 'SOL'%}
+                                <div class="lft bgbl">
+                                    <img src="{% static 'assets/solana-sol-logo.svg' %}" alt="">
+                                    SOL
+                                </div>
+                                {% elif collection.network == 'MATIC'%}
+
+                                <div class="lft matic">
+                                    <img src="{% static 'assets/polygon-matic-logo.svg' %}" alt="">
+                                    MATIC
+                                </div>
+
+                                {% endif %}
+
+                                <div class="rit">
+                                    {% if collection.network == 'BSC' %}
+
+                                    <img src="{% static 'assets/bsc.png' %}" class="icon-img" alt="">
+                                 
+                                {% elif collection.network == 'ETH'%}
+
+                                    <i class="fa-brands fa-ethereum"></i>
+                                
+                                {% elif collection.network == 'SOL'%}
+                                <img src="{% static 'assets/solana-sol-logo-black.svg' %}"  class="icon-img" alt="">
+
+                                {% elif collection.network == 'MATIC'%}
+
+                                    <img src="{% static 'assets/polygon-matic-logo-black.svg' %}" class="icon-img" alt="">
+                                {% endif %}
+                                    {{collection.floor_price}} floor
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="lft">
+                                    {{collection.date|date:"M d"}}
+                                </div>
+                               
+                            </div>
+                            <div class="social-icons">
+                                <a href="{{collection.website}}" id="linkrev" target="_blank">
+                                    <i class="fa-solid fa-globe"></i>
+                                </a>
+                                <a href="{{collection.discord}}" id="disprev" target="_blank">
+                                    <i class="fa-brands fa-discord"></i>
+                                </a>
+                                <a href="{{collection.twitter}}" id="twtprev" target="_blank">
+                                    <i class="fa-brands fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                    {% for collection in collections %}
+
+                    <div class="item">
+                        <img src={{collection.images.image.url}} id="item-cover"  alt="">
+                        <div class="txt">
+                            <h1>
+                                {{collection.name|upper}}
+
+                            </h1>
+                            <div class="line">
+                                {% if collection.network == 'BSC' %}
+
+                                <div class="lft matic bsc">
+                                    <img src="{% static 'assets/bsc.png' %}" alt="">
+                                    BSC
+                                </div>
+                                {% elif collection.network == 'ETH'%}
+
+                                <div class="lft bgblk">
+                                    <i class="fa-brands fa-ethereum"></i>
+                                    ETH
+                                </div>
+                                {% elif collection.network == 'SOL'%}
+                                <div class="lft bgbl">
+                                    <img src="{% static 'assets/solana-sol-logo.svg' %}" alt="">
+                                    SOL
+                                </div>
+                                {% elif collection.network == 'MATIC'%}
+
+                                <div class="lft matic">
+                                    <img src="{% static 'assets/polygon-matic-logo.svg' %}" alt="">
+                                    MATIC
+                                </div>
+
+                                {% endif %}
+
+                                <div class="rit">
+                                    {% if collection.network == 'BSC' %}
+
+                                    <img src="{% static 'assets/bsc.png' %}" class="icon-img" alt="">
+                                 
+                                {% elif collection.network == 'ETH'%}
+
+                                    <i class="fa-brands fa-ethereum"></i>
+                                
+                                {% elif collection.network == 'SOL'%}
+                                <img src="{% static 'assets/solana-sol-logo-black.svg' %}"  class="icon-img" alt="">
+
+                                {% elif collection.network == 'MATIC'%}
+
+                                    <img src="{% static 'assets/polygon-matic-logo-black.svg' %}" class="icon-img" alt="">
+                                {% endif %}
+                                    {{collection.floor_price}} floor
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="lft">
+                                    {{collection.date|date:"M d"}}
+                                </div>
+                                
+                            </div>
+
+                            <div class="social-icons">
+                                <a href="{{collection.website}}" id="linkrev" target="_blank">
+                                    <i class="fa-solid fa-globe"></i>
+                                </a>
+                                <a href="{{collection.discord}}" id="disprev" target="_blank">
+                                    <i class="fa-brands fa-discord"></i>
+                                </a>
+                                <a href="{{collection.twitter}}" id="twtprev" target="_blank">
+                                    <i class="fa-brands fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <a href="{%url 'all' %}">
+                        <div class="view-all">
+                            <i class="text-3xl mb-1 fas fa-arrow-circle-right"></i>
+                            <h1>View All The <br> Latest Collections</h1>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="popup">
+            <div class="listing" id="listitems">
+                <div class="popuphead">
+                    <i class="fas fa-times close" id="close"></i>
+                    <h1 class="head">
+                        List Your Items
+                    </h1>
+                </div>
+                <div class="form">
+                    <div class="left">
+
+                        <div class="dta">
+                            <label for="image">
+                                <img src="{% static 'assets/4.webp' %}" alt="" id="imageprev">
+                                <div class="txtinput" id="image" type="file" placeholder="image"
+                                    accept="image/png, image/jpg, image/gif, image/jpeg" onchange="readURL(this);"
+                                    name="image">
+                                </div> <br>
+                            </label>
+                            <div class="txt">
+                                <h1 id="nameprev">
+                                    Enter Name
+                                </h1>
+                                <div class="line">
+                                    <div class="lft bgblk" id="prevcardicon">
+                                        <img src="{% static 'assets/eth.png' %}" id="previmagecard" alt="">
+                                        <div id="netprev1"> ETH</div>
+                                    </div>
+                                    <div class="rit">
+                                        <i class="fa-brands fa-ethereum"></i>
+                                        <div id="floorprev">0.00</div>
+                                        <div>floor</div>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="lft" id="dateprev">
+                                        Aug 25
+                                    </div>
+                                    <div class="rit" id="volprev">
+                                        <i class="fa-brands fa-ethereum"></i>
+                                        00 vol
+                                    </div>
+                                </div>
+                                <div class="social-icons">
+                                    <a href="https://www.fiverr.com/share/vAAxWr" id="linkrev" target="_blank">
+                                        <i class="fa-solid fa-globe"></i>
+                                    </a>
+                                    <a href="https://discord.com" id="disprev" target="_blank">
+                                        <i class="fa-brands fa-discord"></i>
+                                    </a>
+                                    <a href="https://twitter.com" id="twtprev" target="_blank">
+                                        <i class="fa-brands fa-twitter"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <form method="post" action="{% url 'add_collection'%}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input class="txtinput" id="name" name="name" type="text" placeholder="Project Name"
+                                required> <br>
+
+                            <input class="txtinput" id="floor_price" type="number" name="floor_price"
+                                placeholder="Floor Price" step=".01" required> <br>
+                            <input class="txtinput" id="date" type="date" name="date" class="date" placeholder="date"
+                                required> <br>
+                            <input class="txtinput" id="web_url" type="url" name="website"
+                                placeholder="Website Link"><br>
+                            <input class="txtinput" id="discord_url" type="url" name="discord"
+                                placeholder="Discord Link"> <br>
+                            <input class="txtinput" id="twtr_url" type="url" name="twitter" placeholder="Twitter Link">
+                            <br>
+                            <input type="file" name="image2" id="image2" required> <br>
+                            <!-- network -->
+                            <label for="network">
+                                Select Network
+                            </label> <br>
+                            <div class="networks">
+                                <div id="netname1">
+                                    <input type="radio" id="net1" name="network" class="network" value="SOL">
+                                    <label for="net1" value="SOL">SOL</label>&nbsp;&nbsp;
+                                </div>
+                                <div id="netname2">
+                                    <input type="radio" id="net2" name="network" class="network" value="ETH" checked>
+                                    <label for="net2">ETH</label>&nbsp;&nbsp;
+                                </div>
+                                <div id="netname3">
+                                    <input type="radio" id="net3" name="network" class="network" value="BSC">
+                                    <label for="net3">BSC</label>&nbsp;&nbsp;
+                                </div>
+                                <div id="netname4">
+                                    <input type="radio" id="net4" name="network" class="network" value="MATIC">
+                                    <label for="net4">MATIC</label>
+                                </div>
+                            </div>
+                            <!-- network -->
+                            <div class="listingfee">
+                                <div id="free">
+                                    <input required type="radio" id="free_listing" name="listing_type" value="free"
+                                        class="listing_type">
+                                    <label for="free_listing">Free Listing <br> Wait list 5-8 b days</label>
+                                </div>
+                                <div>
+                                    <div id="paid">
+                                        <input required type="radio" id="paid_listing" name="listing_type" value="paid"
+                                            class="listing_type">
+                                        <label for="paid_listing">Paid Listing <br> Next day Listing</label>
+                                        <br><br>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <div id="paidmsg">
+                                <p>Please send 0.2 ETH tothe address x <br> and paste the transaction link
+                                    below.</p>
+                                <input type="text" name="transaction_link" placeholder="Transaction Link"
+                                    id="transaction_link">
+                            </div>
+
+
+                            <input type="submit" class="btn" value="Submit Project" id="collection_submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("div.alert").fadeOut(3000);
+        });
+    </script>
+    
+
+
+
+<script src="{% static 'script.js' %}"></script>
+
+<script>
+
+
+const netname1 = document.getElementById('netname1');
+const netname2 = document.getElementById('netname2');
+const netname3 = document.getElementById('netname3');
+const netname4 = document.getElementById('netname4');
+const prevCardIcon = document.getElementById('prevcardicon');
+const prevCardImage = document.getElementById('previmagecard');
+netname1.onclick = () =>{
+    document.getElementById('netprev1').innerHTML = 'SOL';
+    prevCardIcon.style.backgroundColor = 'blue'
+    prevCardImage.src = "{% static 'assets/sol.png'%}" 
+}
+netname2.onclick = () =>{
+    document.getElementById('netprev1').innerHTML = "ETH";
+    prevCardIcon.style.backgroundColor = '#344155'
+    prevCardImage.src = "{% static 'assets/eth.png'%}"
+}
+netname3.onclick = () =>{
+    document.getElementById('netprev1').innerHTML = 'BSC';
+    prevCardIcon.style.backgroundColor = 'rgb(56, 17, 23)'
+    prevCardImage.src = "{% static 'assets/bsc.png'%}"
+}
+netname4.onclick = () =>{
+    document.getElementById('netprev1').innerHTML = "MATIC";
+    prevCardIcon.style.backgroundColor = 'rgb(183, 137, 225)'
+    prevCardImage.src = "{% static 'assets/matic.svg'%}"
+}
+
+const paid = document.getElementById("paid");
+
+paid.onclick = () => {
+  paidmsg.style.display = "block";
+};
+
+const free = document.getElementById("free");
+
+free.onclick = () => {
+  paidmsg.style.display = "none";
+};
+
+var linkss = document.getElementById("links");
+var btns = linkss.getElementsByClassName("linknav");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function () {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+
+
+</script>
+
+    
+<script src="{% static 'izi/notify/dist/js/iziToast.min.js' %}">  </script>
+
+<script>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} 
+            iziToast.success({
+                title: 'OK',
+                message: '{{message}}',
+                position:  'topRight',
+            });
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} 
+            iziToast.error({
+                title: 'Error',
+                message: '{{message}}',
+                position:  'topRight',
+    
+            });
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %} 
+            iziToast.warning({
+                title: 'Caution',
+                message: '{{message}}',
+                position:  'topRight',
+                timeout: 10000,
+    
+            });
+    
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %} 
+            iziToast.info({
+                title: 'Hey',
+                message: '{{message}}',
+                position:  'topRight',
+    
+            });
+    
+            
+            
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
+    
+</body>
+</html>

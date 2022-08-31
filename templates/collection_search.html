@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block heading %}
+<div class="heading">
+
+    {% if collections or featured %}
+
+            <h1>Search Results for "{{search_key}}"</h1>
+    {% else %}
+            <h1>No collection found for "{{search_key}}"</h1>
+
+    {% endif %}
+</div>
+
+
+{% endblock heading %}
+
