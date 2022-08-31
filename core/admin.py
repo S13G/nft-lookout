@@ -8,4 +8,4 @@ class SettingsAdmin(admin.ModelAdmin):
     fields = ['logo', 'trade_mark', 'title', 'slogan']
 
 
-admin.site.register(User)
+admin.site.register([User, Statistics])
