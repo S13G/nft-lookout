@@ -2,6 +2,7 @@ from django.db.models import Q
 from .models import Collection
 
 
+# collection filter
 class CollectionFilter:
 
     def __init__(self, search_key) -> None:
